@@ -3,7 +3,7 @@
 The namegame app was an introductory project I built in my first few days at
 Willowtree Apps to help me understand React.js and Fluxxor, and how to use
 their react-boilerplate (for more information, see below). The name game 
-pulled a list of employee names and urls to images from a JSON API, and 
+pulled a list of employee names and urls of images from a JSON API, and 
 randomly selects a person from a pool of 5 employees. You then have to match
 the name of the selected employee with the correct face (5 possible choices
 are presented).
