@@ -8,60 +8,90 @@ var { flux } = require('flux');
 var FluxMixin = Tuxxor.FluxMixin(React),
 	StoreWatchMixin = Tuxxor.StoreWatchMixin;
 
-var SelectedPerson = React.createClass({
+
+var Question = React.createClass({
 	render: function() {
 		return (
-			<h1 className="selectedTitle">Who is { this.props.selected.name }?</h1>
+			<h1 className="questionWrapper">Who is { this.props.selected.name }?</h1>
 		);
 	}
 });
 
-var PeopleArray = React.createClass({
-	mixins: [ FluxMixin ],
+var Person = React.createClass({
+	mixins: [ StoreWatchMixin("PeopleStore"), FluxMixin ],
 
 	guess: function (name) {
+		this.setState({click: true});
 		if(this.props.selected.name == name) {
-			this.props.onCorrectGuess();
-		}
+			this.rightAnswer();
+		} else {
+			this.wrongAnswer();
+		};
 	},
 
+	rightAnswer: function() {
+		flux.actions.rightAnswer(this.props.answer);
+	},
+
+	wrongAnswer: function()	{
+		flux.actions.wrongAnswer(this.props.answer);
+	},
+
+	getInitialState: function () {
+		return {
+			click: false
+		};
+	}, 
+
+	getStateFromFlux: function () {
+		return {
+			answer: this.getFlux().store("PeopleStore").getState().answer
+		};
+	},
+
+	render: function() {
+		var className;
+		if (this.state.click) {
+			className = "click";
+		}
+		if(this.props.employee.name == this.props.selected.name) {
+			className += " right";
+		} else {
+			className += " wrong";
+		}
+		return(
+  			<li className={className} onClick={this.guess.bind(this, (this.props.employee.name))}>
+  		  		<img src={this.props.employee.url} className="personPic"/>
+  		  		<span className="personName">{this.props.employee.name}</span>
+  		  	</li>
+		)
+	}
+})
+
+var PeopleWrapper = React.createClass({
  	render: function() {
 		return (
-			<div className="PeopleArray">
-				<ul className="peopleList">{this.props.pool.map(function(person, i) {
-					var className = false;
-					if(person.name == this.props.selected.name) {
-						className = this.props.correct;
-					}
-          		  return <li key={i} className={className} onClick={this.guess.bind(this, (person.name))}>
-          		  <img src={person.url} className="personPic"/><span className="personName">{person.name}</span></li>;
-          }.bind(this))}</ul>
+			<div className="PeopleWrapper">
+				<ul className="peopleList">{this.props.pool.map(function(employee, i) {
+					return(
+					<Person key={i} pool={this.props.pool} selected={this.props.selected} employee={employee} />
+					)
+				}.bind(this))}</ul>
 			</div>
 		);
 	}
 });
 
 var GameBoard = React.createClass({
-
 	mixins: [ StoreWatchMixin("PeopleStore"), FluxMixin ],
 
-	onCorrectGuess: function() {
-		this.setState({correct: true});
-		setTimeout(function() {
-			this.loadPeopleFromServer();
-			this.setState({correct: false})
-		}.bind(this), 2000);
-	},
-
-	// pull in store watch mixin 
 	loadPeopleFromServer: function() {
 		flux.actions.loadPeopleFromServer(this.props.url);
 	},
 
 	getInitialState: function () {
 		return { 
-			people: [],
-			correct: false
+			people: []
 		};
 	}, 
 
@@ -70,20 +100,17 @@ var GameBoard = React.createClass({
 	},
 
 	getStateFromFlux: function () {
-		var pool = this.getFlux().store("PeopleStore").getState().pool;
-		var selected = this.getFlux().store("PeopleStore").getState().selected;
-
 		return { 
-			pool: pool,
-			selected: selected
+			pool: this.getFlux().store("PeopleStore").getState().pool,
+			selected: this.getFlux().store("PeopleStore").getState().selected
 		};
 	},
 
 	render: function () {
 		return (
 			<div className="GameBoard">
-				<SelectedPerson selected={this.state.selected} />
-				<PeopleArray pool={this.state.pool} selected={this.state.selected} onCorrectGuess={this.onCorrectGuess} correct={this.state.correct} />
+				<Question selected={this.state.selected} />
+				<PeopleWrapper pool={this.state.pool} selected={this.state.selected} />
 			</div>
 		);
 	}

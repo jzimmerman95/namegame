@@ -131,7 +131,7 @@ html, body {
 	display: none;
 }
 
-.selectedTitle {
+.questionWrapper {
 	text-align: center;
 	margin-top: 100px;
 	color: black;
@@ -154,7 +154,8 @@ li {
 	margin: 0 1%;
 }
 
-li.true {
+
+li.right.click {
 	background-color: rgba(62, 169, 18, 0.8);
 	-webkit-transition: background 0.5s linear;
     -moz-transition: background 0.5s linear;
@@ -163,11 +164,18 @@ li.true {
     transition: background 0.5s linear;
 }
 
-li.true img, {
-	opacity: 0.5;
+li.wrong.click {
+	background-color: rgba(255, 0, 0, 0.8);
+	-webkit-transition: background 0.5s linear;
+    -moz-transition: background 0.5s linear;
+    -ms-transition: background 0.5s linear;
+    -o-transition: background 0.5s linear;
+    transition: background 0.5s linear;
 }
 
-
+li.right.click img, li.wrong.click img {
+	opacity: 0.5;
+}
 
 
 

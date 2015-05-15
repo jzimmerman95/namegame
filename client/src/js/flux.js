@@ -22,6 +22,8 @@ var PeopleStore = Tuxxor.createStore({
   initialize: function() {
   	this.selected = {}; 
   	this.pool = [];
+  	this.answer = "default";
+  	this.people = [];
 
     this.bindActions(
       constants.WRONG_ANSWER, this.onWrongAnswer,
@@ -31,45 +33,49 @@ var PeopleStore = Tuxxor.createStore({
   },
 
   onLoadPeopleSuccess: function (people) {
-  	 // Make this.pool five random people
+  	this.people = people;
 	function shuffle(array) {
-		var i;
-		for(i=0; i < array.length; i++) {
-			var j = Math.floor(Math.random() * array.length);
-			var x = array[array.length-1];
-			array[array.length-1] = array[j];
+		for(var i=array.length-1; i >= 0; i--) {
+			var j = Math.floor(Math.random() * i);
+			var x = array[i];
+			array[i] = array[j];
 			array[j] = x;
 		}	
 		return array;
 	}
 	shuffle(people);
 
-	var i;
 	this.pool = [];
-	for(i=0; i<5; i++) {
+	for(var i=0; i<5; i++) {
 		this.pool.push(people[i]);
-	}
-
+	} 
 	this.selected = this.pool[0];
 	shuffle(this.pool);
-
 	this.emit("change");
   },
 
   onWrongAnswer: function(payload) {
+  	this.answer = "wrong";
   	this.emit("change");
   },
 
   onRightAnswer: function(people) {
-  	//change CSS
-  	onLoadPeopleSuccess();
+  	this.answer = "right";
+  	setTimeout(function() {
+  		this.pool = [];
+  		this.emit("change");
+		this.onLoadPeopleSuccess(this.people);
+		this.answer = "default";
+	}.bind(this), 2000);
   	this.emit("change");
   },
 
   getState: function() {
   	return _.clone({
   		selected: this.selected,
-  		pool: this.pool
+  		pool: this.pool,
+  		answer: this.answer,
+  		people: this.people
   	});
   }
 });

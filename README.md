@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #WAT's react-boilerplate
 
 ##Overview
@@ -48,3 +49,6 @@ ajax.get('/api/session/login');
 // For monkeypod
 ajax.get('/monkeypod/session/login');
 ```
+=======
+# namegame
+>>>>>>> 01f00e726bddeb91e72c77e258974ede2f2f3834
