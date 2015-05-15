@@ -22,7 +22,7 @@ var Person = React.createClass({
 
 	guess: function (name) {
 		this.setState({click: true});
-		if(this.props.selected.name == name) {
+		if(this.props.selected.name === name) {
 			this.rightAnswer();
 		} else {
 			this.wrongAnswer();
@@ -47,16 +47,21 @@ var Person = React.createClass({
 		return {};
 	},
 
-	render: function() {
+	determineClassName: function() {
 		var className;
 		if (this.state.click) {
 			className = "click";
 		}
-		if(this.props.employee.name == this.props.selected.name) {
+		if(this.props.employee.name === this.props.selected.name) {
 			className += " right";
 		} else {
 			className += " wrong";
 		}
+		return className;
+	},
+
+	render: function() {
+		var className = this.determineClassName();
 		return(
   			<li className={className} onClick={this.guess.bind(this, (this.props.employee.name))}>
   		  		<img src={this.props.employee.url} className="personPic"/>
@@ -70,11 +75,11 @@ var PeopleWrapper = React.createClass({
  	render: function() {
 		return (
 			<div className="PeopleWrapper">
-				<ul className="peopleList">{this.props.pool.map(function(employee, i) {
-					return(
-					<Person key={i} pool={this.props.pool} selected={this.props.selected} employee={employee} />
-					)
-				}.bind(this))}</ul>
+				<ul className="peopleList">{this.props.pool.map((employee, i) => {
+					return (
+					    <Person key={i} pool={this.props.pool} selected={this.props.selected} employee={employee} />
+					);
+				})}</ul>
 			</div>
 		);
 	}
