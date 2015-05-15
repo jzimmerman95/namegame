@@ -22,7 +22,6 @@ var PeopleStore = Tuxxor.createStore({
   initialize: function() {
   	this.selected = {}; 
   	this.pool = [];
-  	this.answer = "default";
   	this.people = [];
 
     this.bindActions(
@@ -55,17 +54,14 @@ var PeopleStore = Tuxxor.createStore({
   },
 
   onWrongAnswer: function(payload) {
-  	this.answer = "wrong";
   	this.emit("change");
   },
 
   onRightAnswer: function(people) {
-  	this.answer = "right";
   	setTimeout(function() {
   		this.pool = [];
   		this.emit("change");
 		this.onLoadPeopleSuccess(this.people);
-		this.answer = "default";
 	}.bind(this), 2000);
   	this.emit("change");
   },
@@ -74,7 +70,6 @@ var PeopleStore = Tuxxor.createStore({
   	return _.clone({
   		selected: this.selected,
   		pool: this.pool,
-  		answer: this.answer,
   		people: this.people
   	});
   }

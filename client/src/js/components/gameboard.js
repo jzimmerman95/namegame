@@ -44,9 +44,7 @@ var Person = React.createClass({
 	}, 
 
 	getStateFromFlux: function () {
-		return {
-			answer: this.getFlux().store("PeopleStore").getState().answer
-		};
+		return {};
 	},
 
 	render: function() {
