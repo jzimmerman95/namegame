@@ -15,7 +15,6 @@
     "reqwest": "^1.1.5"
   },
   "devDependencies": {
-    "argan": "git+ssh://git@github.com:willowtreeapps/argan.git#npm-import",
     "css-loader": "^0.9.1",
     "del": "~0.1.3",
     "express": "^4.10.2",

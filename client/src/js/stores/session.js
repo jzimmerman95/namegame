@@ -12,10 +12,6 @@ var SessionStore = Tuxxor.createStore({
         this.token = false;
     },
 
-    promises: {
-        "login": "SESSION_LOGIN",
-    },
-
     actions: {
         "logout": "SESSION_LOGOUT"
     },

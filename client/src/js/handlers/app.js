@@ -1,9 +1,9 @@
 'use strict';
 
 var React = require('react');
-var { RouteHandler } = require('react-router');
+var { flux } = require('flux');
 var { FluxMixin, StoreWatchMixin } = require('flux');
-
+var GameBoard = require('components/gameboard');
 
 
 var App = React.createClass({
@@ -12,7 +12,7 @@ var App = React.createClass({
 
     render: function() {
         return <div className="app-container">
-            <RouteHandler />
+			<GameBoard url="http://api.namegame.willowtreemobile.com/" />
         </div>;
     }
 });
