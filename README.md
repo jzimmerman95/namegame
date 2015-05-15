@@ -1,4 +1,15 @@
-<<<<<<< HEAD
+#Namegame
+
+The namegame app was an introductory project I built in my first few days at
+Willowtree Apps to help me understand React.js and Fluxxor, and how to use
+their react-boilerplate (for more information, see below). The name game 
+pulled a list of employee names and urls to images from a JSON API, and 
+randomly selects a person from a pool of 5 employees. You then have to match
+the name of the selected employee with the correct face (5 possible choices
+are presented).
+
+===============================================================
+
 #WAT's react-boilerplate
 
 ##Overview
@@ -49,6 +60,3 @@ ajax.get('/api/session/login');
 // For monkeypod
 ajax.get('/monkeypod/session/login');
 ```
-=======
-# namegame
->>>>>>> 01f00e726bddeb91e72c77e258974ede2f2f3834
